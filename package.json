@@ -20,7 +20,7 @@
     "http-errors": "~1.6.3",
     "http-status": "^1.5.0",
     "jsonwebtoken": "^8.5.1",
-    "node-nats-streaming": "^0.2.6",
+    "node-nats-streaming": "^0.3.2",
     "ts-node": "^10.0.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "tsc-alias": "^1.2.11",
