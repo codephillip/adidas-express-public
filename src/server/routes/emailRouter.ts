@@ -1,11 +1,11 @@
 import express, {Request, Response} from 'express';
 import axios from 'axios';
-import {emailBaseUrl, requestError, subscriptionBaseUrl} from "../utils/constants/stringUtils";
+import {emailBaseUrl, requestError} from "../utils/constants/stringUtils";
 
 const router = express.Router();
 
-router.get('/api/' + process.env.API_VERSION + '/emails', async (req: Request, res: Response) => {
-  const config = req.headers
+process.env.API_VERSION = 'v1'
+router.get(`/api/${process.env.API_VERSION}/emails`, async (req: Request, res: Response) => {
   // @ts-ignore
   axios.get(emailBaseUrl + req.path, req.headers)
     .then(response => {
@@ -16,7 +16,18 @@ router.get('/api/' + process.env.API_VERSION + '/emails', async (req: Request, r
     })
 });
 
-router.post('/api/' + process.env.API_VERSION + '/emails', async (req: Request, res: Response) => {
+router.get(`/api/${process.env.API_VERSION}/emails/:id`, async (req: Request, res: Response) => {
+  // @ts-ignore
+  axios.get(emailBaseUrl + req.path, req.headers)
+    .then(response => {
+      res.status(response.status).send(response.data);
+    })
+    .catch(error => {
+      res.status(400).send({'message': requestError})
+    })
+});
+
+router.post(`/api/${process.env.API_VERSION}/emails`, async (req: Request, res: Response) => {
   // @ts-ignore
   axios.post(emailBaseUrl + req.path, req.body, req.headers)
     .then(response => {
@@ -27,10 +38,9 @@ router.post('/api/' + process.env.API_VERSION + '/emails', async (req: Request, 
     })
 });
 
-router.get('/api/' + process.env.API_VERSION + '/subscriptions', async (req: Request, res: Response) => {
-  const config = req.headers
+router.patch(`/api/${process.env.API_VERSION}/emails/:id`, async (req: Request, res: Response) => {
   // @ts-ignore
-  axios.get(subscriptionBaseUrl + req.path, req.headers)
+  axios.patch(emailBaseUrl + req.path, req.body, req.headers)
     .then(response => {
       res.status(response.status).send(response.data);
     })
@@ -39,9 +49,9 @@ router.get('/api/' + process.env.API_VERSION + '/subscriptions', async (req: Req
     })
 });
 
-router.post('/api/' + process.env.API_VERSION + '/subscriptions', async (req: Request, res: Response) => {
+router.put(`/api/${process.env.API_VERSION}/emails/:id`, async (req: Request, res: Response) => {
   // @ts-ignore
-  axios.post(subscriptionBaseUrl + req.path, req.body, req.headers)
+  axios.put(emailBaseUrl + req.path, req.body, req.headers)
     .then(response => {
       res.status(response.status).send(response.data);
     })
@@ -50,10 +60,9 @@ router.post('/api/' + process.env.API_VERSION + '/subscriptions', async (req: Re
     })
 });
 
-router.get('/api/' + process.env.API_VERSION + '/campaigns', async (req: Request, res: Response) => {
-  const config = req.headers
+router.delete(`/api/${process.env.API_VERSION}/emails/:id`, async (req: Request, res: Response) => {
   // @ts-ignore
-  axios.get(subscriptionBaseUrl + req.path, req.headers)
+  axios.delete(emailBaseUrl + req.path, req.body, req.headers)
     .then(response => {
       res.status(response.status).send(response.data);
     })
@@ -62,15 +71,4 @@ router.get('/api/' + process.env.API_VERSION + '/campaigns', async (req: Request
     })
 });
 
-router.post('/api/' + process.env.API_VERSION + '/campaigns', async (req: Request, res: Response) => {
-  // @ts-ignore
-  axios.post(subscriptionBaseUrl + req.path, req.body, req.headers)
-    .then(response => {
-      res.status(response.status).send(response.data);
-    })
-    .catch(error => {
-      res.status(400).send({'message': requestError})
-    })
-});
-
-export {router as indexResourceRouter};
+export {router as emailRouter};
