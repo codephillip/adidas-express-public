@@ -5,7 +5,7 @@ import {requireAuth} from '@adidastest-phillip/common';
 
 const router = express.Router();
 
-router.get(`/api/${process.env.API_VERSION}/subscriptions`, requireAuth, async (req: Request, res: Response) => {
+router.get([`/api/${process.env.API_VERSION}/subscriptions/:id`, `/api/${process.env.API_VERSION}/subscriptions`], requireAuth, async (req: Request, res: Response) => {
   // @ts-ignore
   axios.get(subscriptionBaseUrl + req.path, req.headers)
     .then(response => res.status(response.status).send(response.data))
@@ -40,14 +40,7 @@ router.delete(`/api/${process.env.API_VERSION}/subscriptions/:id`, requireAuth, 
     .catch(error => res.status(400).send({'message': requestError}))
 });
 
-router.get(`/api/${process.env.API_VERSION}/campaigns`, requireAuth, async (req: Request, res: Response) => {
-  // @ts-ignore
-  axios.get(subscriptionBaseUrl + req.path, req.headers)
-    .then(response => res.status(response.status).send(response.data))
-    .catch(error => res.status(400).send({'message': requestError}))
-});
-
-router.get(`/api/${process.env.API_VERSION}/campaigns/:id`, requireAuth, async (req: Request, res: Response) => {
+router.get([`/api/${process.env.API_VERSION}/campaigns/:id`, `/api/${process.env.API_VERSION}/campaigns`], requireAuth, async (req: Request, res: Response) => {
   // @ts-ignore
   axios.get(subscriptionBaseUrl + req.path, req.headers)
     .then(response => res.status(response.status).send(response.data))
