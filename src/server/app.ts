@@ -14,7 +14,7 @@ app.use(emailRouter);
 app.use(subscriptionRouter);
 
 app.use(
-  `/api/${process.env.API_VERSION}/subscriptionSwagger`,
+  `/api/${process.env.API_VERSION}/swagger`,
   swaggerUi.serveFiles(swaggerDocument),
   swaggerUi.setup(swaggerDocument),
 );
